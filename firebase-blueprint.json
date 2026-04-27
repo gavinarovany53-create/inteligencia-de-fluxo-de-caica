@@ -1,0 +1,55 @@
+{
+  "entities": {
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial transaction for the user, representing either a sale (entrada) or an expense (saida).",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The User ID of the owner of this transaction"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the transaction"
+        },
+        "amount": {
+          "type": "number",
+          "description": "Gross amount of the transaction. Sales are positive, expenses are negative."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["sale", "expense"],
+          "description": "Whether the transaction is a sale or an expense"
+        },
+        "tax": {
+          "type": "number",
+          "description": "Tax withheld for split payment"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["completed", "pending", "cancelled"],
+          "description": "Status of the transaction"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of the transaction in YYYY-MM-DD format"
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Unix timestamp in milliseconds representing creation time"
+        }
+      },
+      "required": ["uid", "description", "amount", "type", "tax", "status", "date", "createdAt"]
+    }
+  },
+  "firestore": {
+    "transactions/{transactionId}": {
+      "schema": {
+        "$ref": "#/entities/Transaction"
+      },
+      "description": "Storage for all users' financial transactions, isolated by the uid field."
+    }
+  }
+}
